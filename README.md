@@ -43,3 +43,7 @@ URL guard blocks non-http(s), credentials, odd ports, and any hostname resolving
 
 ## Deployment (instructions only; not performed)
 Backend: build `backend/Dockerfile`, run on any container host with a persistent volume for `PP_DB_PATH` (SQLite) or after the Postgres migration, set all `PP_*` variables as secrets, `PP_ENV=production`. Frontend: `npm run build`, host `dist/` (Vercel/Netlify) with `VITE_API_URL` pointing at the backend and add that origin to `PP_CORS_ORIGINS`. Verify with `GET /health`, then register, add a project, run an audit. Vercel serverless cannot run Playwright; keep the backend on container hosting.
+
+## Live Demo
+
+[Open ProjectPulse](https://project-pulse-3-eenl.onrender.com)
