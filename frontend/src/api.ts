@@ -1,4 +1,4 @@
-const BASE = (import.meta as any).env?.VITE_API_URL ?? "http://localhost:8000";
+const BASE = (import.meta as any).env?.VITE_API_URL ?? "https://project-pulse-2-pia4.onrender.com";
 let token: string | null = sessionStorage.getItem("pp_token");
 export const setToken = (t: string | null) => { token = t; t ? sessionStorage.setItem("pp_token", t) : sessionStorage.removeItem("pp_token"); };
 export const hasToken = () => !!token;
