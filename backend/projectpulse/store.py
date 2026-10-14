@@ -39,6 +39,9 @@ class Store:
         for i, sql in enumerate(MIGRATIONS[v:], start=v + 1):
             self.db.executescript(sql); self.db.execute(f"PRAGMA user_version={i}")
         self.db.commit()
+    def close(self):
+        with self.lock:
+            self.db.close()
 
     # users
     def create_user(self, email, pw_hash):

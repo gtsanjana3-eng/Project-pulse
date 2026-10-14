@@ -52,10 +52,13 @@ class Persistence(unittest.TestCase):
             path = os.path.join(d, "t.db")
             s = Store(path); uid = s.create_user("a@b.co", "h"); pid = s.create_project(uid, "demo", "https://a.com/", features=["login"], problem_statement="P")
             s.db.close()
-            s2 = Store(path)                                         # new process simulation; migrations must be idempotent
-            self.assertEqual(s2.get_project(uid, pid)["features"], ["login"])
-            self.assertEqual(s2.get_user_by_email("a@b.co")["id"], uid)
-            self.assertEqual(s2.db.execute("PRAGMA user_version").fetchone()[0], 1)
+            s2 = Store(path)  # new process simulation; migrations must be idempotent
+            try:
+                self.assertEqual(s2.get_project(uid, pid)["features"], ["login"])
+                self.assertEqual(s2.get_user_by_email("a@b.co")["id"], uid)
+                self.assertEqual(s2.db.execute("PRAGMA user_version").fetchone()[0], 1)
+            finally:
+                s2.close()
     def test_finding_status_rules(self):
         s = Store(); u = s.create_user("a@b.co", "h"); pid = s.create_project(u, "d", "https://a.com/")
         from projectpulse.quick_audit import run_quick_audit
